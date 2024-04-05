@@ -10,19 +10,20 @@ import Foundation
 import Foundation
 
 // MARK: - ITunes
-struct ITunes: Codable {
+struct ITunes: Decodable {
     let results: [Result]
 }
 
 // MARK: - Result
-struct Result: Codable {
+struct Result: Decodable {
+    let bundleId: String // 프라이머리 키
     let artworkUrl60, artworkUrl100: String // 앱 로고
     let screenshotUrls: [String] // 스크린샷
     let minimumOSVersion: String // 최소 버전
     let averageUserRating: Double // 평점
-    let trackCensoredName : String // 카카오톡 같이 이름 나옴
+    let trackCensoredName : String // 카카오톡 같이 이름 나옴 --> 검열 이름
     let sellerName: String // 회사 이름
-    let releaseNotes: String // 릴리즈 노트
+    let releaseNotes: String? // 릴리즈 노트
     let artistID: Int // 362057950 같이 회사 ID 인가봄
     let artistName: String // 이것도 회사 이름이 나오긴 함
     let genres: [String] // 장르 인데 ["소셜 네트워킹", "생산성"] 같이 나옴
@@ -36,6 +37,7 @@ struct Result: Codable {
     let wrapperType: String // Ios Mac IPad 같은 타입 을 명시 하지만 출력은 Software 같이 옴
 
     enum CodingKeys: String, CodingKey {
+        case bundleId
         case artworkUrl60, artworkUrl100, screenshotUrls
         case minimumOSVersion = "minimumOsVersion"
         case averageUserRating, trackCensoredName, sellerName, releaseNotes

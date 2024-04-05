@@ -21,6 +21,7 @@
 		7BDAF3AB2BC015D2002676A0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 7BDAF3AA2BC015D2002676A0 /* Then */; };
 		7BDAF3AE2BC015DE002676A0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7BDAF3AD2BC015DE002676A0 /* Kingfisher */; };
 		7BDAF3B02BC01677002676A0 /* ITunesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDAF3AF2BC01677002676A0 /* ITunesRouter.swift */; };
+		7BDAF3B32BC04A1F002676A0 /* UrlRequestAssistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDAF3B22BC04A1F002676A0 /* UrlRequestAssistance.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		7BDAF3972BC01263002676A0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		7BDAF39A2BC0131F002676A0 /* IturesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IturesModel.swift; sourceTree = "<group>"; };
 		7BDAF3AF2BC01677002676A0 /* ITunesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITunesRouter.swift; sourceTree = "<group>"; };
+		7BDAF3B22BC04A1F002676A0 /* UrlRequestAssistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlRequestAssistance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 		7BDAF37E2BC0111D002676A0 /* ITunesApp */ = {
 			isa = PBXGroup;
 			children = (
+				7BDAF3B12BC04A01002676A0 /* Assistance */,
 				7BDAF3992BC01316002676A0 /* Model */,
 				7BDAF3962BC0122D002676A0 /* Network */,
 				7BDAF3952BC01224002676A0 /* View */,
@@ -122,6 +125,14 @@
 				7BDAF39A2BC0131F002676A0 /* IturesModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7BDAF3B12BC04A01002676A0 /* Assistance */ = {
+			isa = PBXGroup;
+			children = (
+				7BDAF3B22BC04A1F002676A0 /* UrlRequestAssistance.swift */,
+			);
+			path = Assistance;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BDAF3982BC01263002676A0 /* SearchViewController.swift in Sources */,
+				7BDAF3B32BC04A1F002676A0 /* UrlRequestAssistance.swift in Sources */,
 				7BDAF3B02BC01677002676A0 /* ITunesRouter.swift in Sources */,
 				7BDAF39B2BC0131F002676A0 /* IturesModel.swift in Sources */,
 				7BDAF3802BC0111D002676A0 /* AppDelegate.swift in Sources */,

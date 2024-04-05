@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class SearchViewController: UIViewController {
     
@@ -13,6 +14,9 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        
+        UrlRequestAssistance.shared.requestAF(type: ITunes.self , router: .search(term: "카카오톡"))
+        
     }
     
 }
