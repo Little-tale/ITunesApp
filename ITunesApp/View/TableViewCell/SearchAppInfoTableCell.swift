@@ -62,6 +62,18 @@ class SearchAppInfoTableCell: UITableViewCell {
         $0.textColor = .systemGray
         $0.textAlignment = .center
     }
+    
+    let appInfoImage1 = UIImageView()
+    let appInfoImage2 = UIImageView()
+    let appInfoImage3 = UIImageView()
+    let stackView = UIStackView().then {
+        $0.axis = .horizontal
+        // $0.alignment = .fill
+        $0.spacing = 16
+        $0.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        $0.isLayoutMarginsRelativeArrangement = true
+        $0.distribution = .fillEqually
+    }
      
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -77,11 +89,20 @@ class SearchAppInfoTableCell: UITableViewCell {
         contentView.addSubview(appIconImageView)
         contentView.addSubview(downloadButton)
         contentView.addSubview(dummyStarImageView)
-        
+        contentView.addSubview(userScoreLable)
         contentView.addSubview(companyNameLabel)
+        contentView.addSubview(genreLabel)
+        contentView.addSubview(stackView)
+        
+        let imageArray = [appInfoImage1, appInfoImage2, appInfoImage3]
+        
+        imageArray.forEach { [weak self] image in
+            guard let self else { return }
+            self.stackView.addArrangedSubview(image)
+        }
         
         appIconImageView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
+            $0.top.equalTo(contentView.safeAreaLayoutGuide).inset(12)
             $0.leading.equalTo(20)
             $0.size.equalTo(60)
         }
@@ -90,7 +111,6 @@ class SearchAppInfoTableCell: UITableViewCell {
             $0.centerY.equalTo(appIconImageView)
             $0.leading.equalTo(appIconImageView.snp.trailing).offset(8)
             $0.trailing.equalTo(downloadButton.snp.leading).offset(-8)
-           
         }
     
         downloadButton.snp.makeConstraints {
@@ -114,6 +134,27 @@ class SearchAppInfoTableCell: UITableViewCell {
         companyNameLabel.snp.makeConstraints { make in
             make.centerX.equalTo(contentView.safeAreaLayoutGuide)
             make.top.equalTo(appIconImageView.snp.bottom).offset(13)
+        }
+        
+        genreLabel.snp.makeConstraints { make in
+            make.trailing.equalTo(downloadButton)
+            make.centerY.equalTo(companyNameLabel)
+            make.width.equalTo(40)
+        }
+        
+        stackView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.top.equalTo(dummyStarImageView.snp.bottom).offset(8)
+            make.height.equalTo(200)
+            make.bottom.equalToSuperview().inset(12)
+        }
+        stackView.backgroundColor = .blue
+        imageArray.forEach {
+            
+            $0.snp.makeConstraints { make in
+                make.verticalEdges.equalToSuperview()
+            }
+            $0.backgroundColor = .red
         }
         
     }
