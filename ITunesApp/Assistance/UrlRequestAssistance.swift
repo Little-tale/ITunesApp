@@ -24,7 +24,7 @@ class UrlRequestAssistance {
                 .responseDecodable(of: type) { response in
                     switch response.result {
                     case .success(let data):
-                        print(data)
+                        print("success")
                         
                         observable.onNext(data)
                         observable.onCompleted()

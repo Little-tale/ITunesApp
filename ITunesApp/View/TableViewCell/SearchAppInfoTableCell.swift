@@ -8,7 +8,9 @@
 import UIKit
 import SnapKit
 import RxSwift
+import RxCocoa
 import Then
+import Kingfisher
 
 class SearchAppInfoTableCell: UITableViewCell {
 
@@ -75,6 +77,9 @@ class SearchAppInfoTableCell: UITableViewCell {
         $0.distribution = .fillEqually
     }
      
+    
+    let viewModel = SearchTableCellViewModel()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -150,15 +155,30 @@ class SearchAppInfoTableCell: UITableViewCell {
         }
         stackView.backgroundColor = .blue
         imageArray.forEach {
-            
             $0.snp.makeConstraints { make in
                 make.verticalEdges.equalToSuperview()
             }
             $0.backgroundColor = .red
         }
-        
     }
-
+    
+    func settingModel(_ model: SearchResult) {
+        let behiberModel = BehaviorRelay(value: model)
+        
+        let input = SearchTableCellViewModel
+            .Input(
+                inputModel: behiberModel,
+                inputDownButtonTap: downloadButton.rx.tap
+            )
+        let output = viewModel.transform(input)
+        
+        
+        output.imageView.bind(with: self) { owner, url in
+            owner.appIconImageView.kf.setImage(with: url)
+        }
+        .disposed(by: disposeBag)
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()

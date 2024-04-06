@@ -12,7 +12,6 @@ import RxCocoa
 class SearchResultsViewModel: ViewModelType {
     let disposeBag = DisposeBag()
     
-    
     struct Input {
         let searchText: Observable<String>
     }
@@ -23,10 +22,9 @@ class SearchResultsViewModel: ViewModelType {
     func transform(_ input: Input) -> Output {
         let behiber = BehaviorRelay<[SearchResult]> (value: [])
         
-        let searchResult = input.searchText
+        input.searchText
             .distinctUntilChanged()
             .debounce(.milliseconds(600), scheduler: MainScheduler.instance)
-            .debug()
             .flatMapLatest { searchText in
                 guard !searchText.isEmpty else {
                     print("no no no title ")
@@ -36,8 +34,7 @@ class SearchResultsViewModel: ViewModelType {
             }
             .map({ $0.results })
             .bind(to: behiber)
-        
-       
+            .disposed(by: disposeBag)
         
         return Output(resultData: behiber)
     }

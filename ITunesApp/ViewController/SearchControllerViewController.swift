@@ -25,6 +25,8 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
     
     let viewModel = SearchResultsViewModel()
     
+    private let searchQuerySub = PublishSubject<String> ()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -33,6 +35,7 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
         designView()
         registSetting()
         subscribe()
+        
     }
     
     func configureHierarchy() {
@@ -52,31 +55,27 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
     
     private func subscribe(){
         
-     /*
-      cellIdentifier: SearchAppInfoTableCell.identifier, cellType: SearchAppInfoTableCell.self
-      */
-    }
-    
-    func performsearch(for query: String) {
-        let queryJust = Observable.just(query)
-        
-        let input = SearchResultsViewModel.Input(searchText: queryJust)
+        let input = SearchResultsViewModel.Input(searchText: searchQuerySub)
         
         let output = viewModel.transform(input)
         
         // TableView Draw
         output.resultData
+           
             .bind(
                 to: appInfoTableView.rx.items(
                     cellIdentifier: SearchAppInfoTableCell.identifier,
                     cellType: SearchAppInfoTableCell.self
                 )
             ) { row , data , cell in
-                cell.appNameLabel.text = data.artistName
-            }.disposed(by: disposeBag)
+                cell.settingModel(data)
+            }
+            .disposed(by: disposeBag)
     }
     
-    
+    func performsearch(for query: String) {
+        searchQuerySub.onNext(query)
+    }
     
     
     private func registSetting(){
@@ -87,5 +86,10 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
     
 }
 
+/* 오늘
+ 위와 같은 방법으로 해결은 하였으나.... 너무 맘에 들지 않는데
+ 전역 변수로 밖엔 해결을 하지 못했을까?
+
+ */
 
 
