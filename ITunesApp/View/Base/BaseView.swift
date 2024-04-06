@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class BaseView: UIView, LayoutProtocol {
     override init(frame: CGRect) {
@@ -17,6 +18,8 @@ class BaseView: UIView, LayoutProtocol {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    let rxDisPoseBag = DisposeBag()
     
     func all(){
         configureHierarchy()

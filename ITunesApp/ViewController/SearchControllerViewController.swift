@@ -25,6 +25,8 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
     
     let viewModel = SearchResultsViewModel()
     
+    weak var pushDelegate: PushViewController?
+    
     private let searchQuerySub = PublishSubject<String> ()
     
     override func viewDidLoad() {
@@ -70,6 +72,19 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
                 )
             ) { row , data , cell in
                 cell.settingModel(data)
+            }
+            .disposed(by: disposeBag)
+        
+        // TableView ItemSelected
+        appInfoTableView.rx.modelSelected(SearchResult.self)
+            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+            .bind(with: self) { owner, result in
+                let view = AppDetailViewController()
+                view.setModel(result)
+                owner.pushDelegate?.push(view)
+                //owner.navigationController?.pushViewController(view, animated: true)
+                
+                print("????/")
             }
             .disposed(by: disposeBag)
     }

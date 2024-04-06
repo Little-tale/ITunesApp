@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import RxSwift
 
 
 class BaseViewController<T: BaseView>: UIViewController {
     
     let homeView = T()
+    
+    let rxDisposeBag = DisposeBag()
     
     override func loadView() {
         super.loadView()

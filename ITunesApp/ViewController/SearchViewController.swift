@@ -9,9 +9,18 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+protocol PushViewController: AnyObject {
+    
+    func push(_ changeVieController: UIViewController)
+    
+}
+
+
 class SearchViewController: UIViewController {
     
-    private let nextSearchViewController = SearchControllerViewController()
+    private let rootViewController = SearchControllerViewController()
+    
+    private lazy var nextSearchViewController = rootViewController //UINavigationController(rootViewController: rootViewController)
     
     private lazy var homeView = SearchHomeView(resultViewController: nextSearchViewController, frame: .zero)
     
@@ -23,6 +32,7 @@ class SearchViewController: UIViewController {
         super.loadView()
         view = homeView
         homeView.backgroundColor = .white
+        rootViewController.pushDelegate = self
         subscribe()
     }
     
@@ -53,9 +63,16 @@ class SearchViewController: UIViewController {
         
         output.searchText
             .bind(with: self) { owner, searchText in
-                owner.nextSearchViewController
+                owner.rootViewController
                     .performsearch(for: searchText)
             }.disposed(by: disposeBag)
     }
     
+}
+
+extension SearchViewController: PushViewController {
+    
+    func push(_ changeVieController: UIViewController) {
+        navigationController?.pushViewController(changeVieController, animated: true)
+    }
 }

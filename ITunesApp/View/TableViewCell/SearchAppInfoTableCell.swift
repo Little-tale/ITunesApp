@@ -163,6 +163,7 @@ class SearchAppInfoTableCell: UITableViewCell {
             $0.layer.borderWidth = 0.2
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill
+            $0.isHidden = true
         }
     }
     
@@ -203,17 +204,22 @@ class SearchAppInfoTableCell: UITableViewCell {
             .drive(appNameLabel.rx.text)
             .disposed(by: disposeBag)
         
+        // 이미지가 없을 경우도 있드라 수정
         output.screenShots
             .asObservable()
             .withUnretained(self)
             .subscribe { owner, url in
-                for (index, value) in owner.imageArray.enumerated() {
-                    value.kf.setImage(with: url[index], options: [
+                for (index, value) in url.enumerated() {
+                    let imageview = owner.imageArray[index]
+                    imageview.isHidden = false
+                    imageview.kf.setImage(with: value)
+                    imageview.kf.setImage(with: value, options: [
                         .transition(.fade(0.5)),
                         .processor(DownsamplingImageProcessor(size: .init(width: 130, height: 200))),
                         .scaleFactor(UIScreen.current?.scale ?? 300)
                     ])
                 }
+            
             } onError: { error in
                 print(error)
             }
@@ -223,6 +229,10 @@ class SearchAppInfoTableCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        imageArray.forEach { view in
+            view.isHidden = true
+        }
         disposeBag = DisposeBag()
+        viewModel.disposeBag = .init()
     }
 }

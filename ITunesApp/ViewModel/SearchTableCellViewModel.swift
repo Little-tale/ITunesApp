@@ -11,7 +11,7 @@ import RxCocoa
 
 class SearchTableCellViewModel: ViewModelType {
     
-    let disposeBag: DisposeBag = .init()
+    var disposeBag: DisposeBag = .init()
     
     struct Input {
         let inputModel: BehaviorRelay<SearchResult>

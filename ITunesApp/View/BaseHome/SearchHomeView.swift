@@ -23,7 +23,7 @@ class SearchHomeView: SearchBaseView {
     private func settingSearchController(){
         searchController.searchBar.placeholder = "게임, 앱, 스토리등"
         
-        if let resultViewController {
+        if resultViewController != nil {
             searchController.showsSearchResultsController = true
         }
     }

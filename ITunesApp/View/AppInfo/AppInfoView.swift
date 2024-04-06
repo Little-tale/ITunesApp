@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 import Kingfisher
 
 struct AppInfoModel {
@@ -15,7 +17,7 @@ struct AppInfoModel {
     let appTrackName: String
     let appCompanyName: String
     
-    init(appImageUrl: String, appTrackName: String, appCompanyName: String, downButton: String) {
+    init(appImageUrl: String, appTrackName: String, appCompanyName: String) {
         self.appImageUrl = URL(string: appImageUrl)
         self.appTrackName = appTrackName
         self.appCompanyName = appCompanyName
@@ -46,18 +48,22 @@ class AppInfoView: BaseView{
         $0.layer.cornerRadius = 16
     }
     
+    let viewModel = AppInfoViewModel()
     
     override func configureHierarchy() {
         addSubview(appImageView)
         addSubview(apptrackName)
         addSubview(appCompanyName)
         addSubview(downButton)
+        backgroundColor = .red
+    
     }
     
     override func configureLayout() {
         appImageView.snp.makeConstraints { make in
-            make.size.equalTo(140)
-            make.verticalEdges.equalTo(safeAreaLayoutGuide).inset(10)
+            make.size.equalTo(100)
+            make.centerY.equalTo(safeAreaLayoutGuide)
+            make.leading.equalTo(safeAreaLayoutGuide).offset(10)
         }
         apptrackName.snp.makeConstraints { make in
             make.leading.equalTo(appImageView.snp.trailing).offset(10)
@@ -76,10 +82,26 @@ class AppInfoView: BaseView{
         }
     }
     
-    func setUI(_ model: AppInfoModel){
-        appImageView.kf.setImage(with: model.appImageUrl)
-        apptrackName.text = model.appTrackName
-        appCompanyName.text = model.appCompanyName
+    func settingModel(_ model: BehaviorRelay<AppInfoModel>) {
+        
+        let input = AppInfoViewModel.Input(inModel: model)
+        
+        let output = viewModel.transform(input)
+        
+        output.appCompanyName
+            .drive(appCompanyName.rx.text)
+            .disposed(by: rxDisPoseBag)
+        
+        output.appTrackName
+            .drive(apptrackName.rx.text)
+            .disposed(by: rxDisPoseBag)
+        
+        output.appImageURL
+            .asObservable()
+            .bind(with: self) { owner, url in
+                owner.appImageView.kf.setImage(with: url)
+            }
+            .disposed(by: rxDisPoseBag)
     }
     
 }
