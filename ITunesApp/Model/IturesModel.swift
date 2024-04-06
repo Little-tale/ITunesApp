@@ -11,11 +11,11 @@ import Foundation
 
 // MARK: - ITunes
 struct ITunes: Decodable {
-    let results: [Result]
+    let results: [SearchResult]
 }
 
 // MARK: - Result
-struct Result: Decodable {
+struct SearchResult: Decodable {
     let bundleId: String // 프라이머리 키
     let artworkUrl60, artworkUrl100: String // 앱 로고
     let screenshotUrls: [String] // 스크린샷
