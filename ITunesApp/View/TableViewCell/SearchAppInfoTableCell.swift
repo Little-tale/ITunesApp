@@ -71,12 +71,13 @@ class SearchAppInfoTableCell: UITableViewCell {
     let stackView = UIStackView().then {
         $0.axis = .horizontal
         // $0.alignment = .fill
-        $0.spacing = 16
-        $0.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        $0.spacing = 10
+        $0.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         $0.isLayoutMarginsRelativeArrangement = true
         $0.distribution = .fillEqually
     }
      
+    private lazy var imageArray = [appInfoImage1, appInfoImage2, appInfoImage3]
     
     let viewModel = SearchTableCellViewModel()
     
@@ -99,7 +100,7 @@ class SearchAppInfoTableCell: UITableViewCell {
         contentView.addSubview(genreLabel)
         contentView.addSubview(stackView)
         
-        let imageArray = [appInfoImage1, appInfoImage2, appInfoImage3]
+        
         
         imageArray.forEach { [weak self] image in
             guard let self else { return }
@@ -132,7 +133,8 @@ class SearchAppInfoTableCell: UITableViewCell {
         
         userScoreLable.snp.makeConstraints { make in
             make.leading.equalTo(dummyStarImageView.snp.trailing).offset(4)
-            make.top.equalTo(companyNameLabel)
+            //make.top.equalTo(companyNameLabel)
+            make.centerY.equalTo(companyNameLabel)
             make.width.equalTo(40)
         }
         
@@ -144,7 +146,6 @@ class SearchAppInfoTableCell: UITableViewCell {
         genreLabel.snp.makeConstraints { make in
             make.trailing.equalTo(downloadButton)
             make.centerY.equalTo(companyNameLabel)
-            make.width.equalTo(40)
         }
         
         stackView.snp.makeConstraints { make in
@@ -153,12 +154,15 @@ class SearchAppInfoTableCell: UITableViewCell {
             make.height.equalTo(200)
             make.bottom.equalToSuperview().inset(12)
         }
-        stackView.backgroundColor = .blue
+        
         imageArray.forEach {
             $0.snp.makeConstraints { make in
                 make.verticalEdges.equalToSuperview()
             }
-            $0.backgroundColor = .red
+            $0.layer.cornerRadius = 5
+            $0.layer.borderWidth = 0.2
+            $0.clipsToBounds = true
+            $0.contentMode = .scaleAspectFill
         }
     }
     
@@ -172,11 +176,49 @@ class SearchAppInfoTableCell: UITableViewCell {
             )
         let output = viewModel.transform(input)
         
+        output
+            .artworkUrl60
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, url in
+                owner.appIconImageView.kf.setImage(with: url)
+            }.disposed(by: disposeBag)
         
-        output.imageView.bind(with: self) { owner, url in
-            owner.appIconImageView.kf.setImage(with: url)
-        }
-        .disposed(by: disposeBag)
+        output
+            .averageUserRating
+            .drive(userScoreLable.rx.text)
+            .disposed(by: disposeBag)
+        
+        output
+            .genres
+            .drive(genreLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output
+            .sellerName
+            .drive(companyNameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.trackName
+            .drive(appNameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.screenShots
+            .asObservable()
+            .withUnretained(self)
+            .subscribe { owner, url in
+                for (index, value) in owner.imageArray.enumerated() {
+                    value.kf.setImage(with: url[index], options: [
+                        .transition(.fade(0.5)),
+                        .processor(DownsamplingImageProcessor(size: .init(width: 130, height: 200))),
+                        .scaleFactor(UIScreen.current?.scale ?? 300)
+                    ])
+                }
+            } onError: { error in
+                print(error)
+            }
+            .disposed(by: disposeBag)
+        
     }
     
     override func prepareForReuse() {

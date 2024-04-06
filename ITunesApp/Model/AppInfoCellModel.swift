@@ -25,6 +25,7 @@ struct AppInfoCellModel {
         self.genres = genres.first ?? ""
     }
     
+    
 }
 
 

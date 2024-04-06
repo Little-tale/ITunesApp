@@ -49,7 +49,8 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
     }
     
     func designView() {
-        appInfoTableView.backgroundColor = .systemGreen
+        
+        appInfoTableView.backgroundColor = .systemBackground
     }
     
     
@@ -82,6 +83,7 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
         appInfoTableView.register(SearchAppInfoTableCell.self, forCellReuseIdentifier: SearchAppInfoTableCell.identifier)
         appInfoTableView.estimatedRowHeight = 120
         appInfoTableView.rowHeight = UITableView.automaticDimension
+        appInfoTableView.separatorStyle = .none
     }
     
 }

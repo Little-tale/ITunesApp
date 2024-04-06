@@ -19,20 +19,53 @@ class SearchTableCellViewModel: ViewModelType {
     }
     
     struct Output {
-        let imageView: BehaviorSubject<URL?>
+        let trackName: Driver<String>
+        let sellerName: Driver<String>
+        let artworkUrl60: Driver<URL?>
+        let averageUserRating: Driver<String>
+        let genres: Driver<String>
+        
+        let screenShots: Driver<[URL?]>
     }
     
     func transform(_ input: Input) -> Output {
-        let imageData = BehaviorSubject<URL?> (value: nil)
         
-        input.inputModel
-            .bind(with: self) { owner, result in
-                imageData.onNext(URL(string:result.artworkUrl100))
-            }
-            .disposed(by: disposeBag)
-            
+        let trackName = input.inputModel
+            .map { $0.trackName }
+            .asDriver(onErrorJustReturn: "")
+        
+        let sellerName = input.inputModel
+            .map { $0.sellerName }
+            .asDriver(onErrorJustReturn: "")
+        
+        let artworkUrl60 = input.inputModel
+            .map { $0.artworkUrl60 }
+            .compactMap { URL(string: $0) }
+            .asDriver(onErrorJustReturn: nil)
+        
+        let averageUserRating = input.inputModel
+            .map { $0.averageUserRating }
+            .map { $0.rounded2 }
+            .asDriver(onErrorJustReturn: "")
+        
+        let genre = input.inputModel
+            .compactMap { $0.genres.first }
+            .asDriver(onErrorJustReturn: "")
+        
+        let screenShots = input.inputModel
+            .map { $0.screenshotUrls }
+            .map { $0.prefix(3) }
+            .compactMap { $0.map { URL(string: $0) } }
+            .asDriver(onErrorJustReturn: [nil])
+        
+       
         return Output(
-            imageView: imageData
+            trackName: trackName,
+            sellerName: sellerName,
+            artworkUrl60: artworkUrl60,
+            averageUserRating: averageUserRating,
+            genres: genre,
+            screenShots: screenShots
         )
     }
     
