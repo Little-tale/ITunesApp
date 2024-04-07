@@ -19,12 +19,21 @@ class AppDetailViewModel: ViewModelType {
     
     struct Output {
         let outputAppInfo: BehaviorRelay<AppInfoModel>
-        
+        let outAppDetailInfo: BehaviorRelay<AppDetailModel>
+        let outImages: BehaviorRelay<ImageCellModel>
+        let outIntroduce: BehaviorRelay<AppIntroduceModel>
     }
+    
     
     func transform(_ input: Input) -> Output {
         
         let outputRelay = BehaviorRelay<AppInfoModel> (value: AppInfoModel.init(appImageUrl: "", appTrackName: "", appCompanyName: ""))
+        
+        let outAppDetailInfo = BehaviorRelay<AppDetailModel> (value: .init(detailLabelText: "",version: ""))
+        
+        let imageModel = BehaviorRelay<ImageCellModel>(value: .init(imageUrlString: []))
+        
+        let introduce = BehaviorRelay<AppIntroduceModel>(value: .init(description: ""))
         
         input.inputModel
             .map { result -> AppInfoModel in
@@ -35,8 +44,42 @@ class AppDetailViewModel: ViewModelType {
             }
             .bind(to: outputRelay)
             .disposed(by: disposeBag)
+        
+        input.inputModel
+            .map({ result -> AppDetailModel in
+                return AppDetailModel(
+                    detailLabelText: result.releaseNotes ?? "",
+                    version: result.version
+                )
+            })
+            .bind(to: outAppDetailInfo)
+            .disposed(by: disposeBag)
+        
+        input.inputModel
+            .map { $0.screenshotUrls.prefix(5) }
+            .map { array -> ImageCellModel in
+                return ImageCellModel(
+                    imageUrlString: Array(array)
+                )
+            }
+            .bind(to: imageModel)
+            .disposed(by: disposeBag)
+        
+        input.inputModel
+            .map { $0.description }
+            .map { string -> AppIntroduceModel in
+                return AppIntroduceModel(description: string)
+            }
+            .bind(to: introduce)
+            .disposed(by: disposeBag)
+        
 
-        return Output(outputAppInfo: outputRelay)
+        return Output(
+            outputAppInfo: outputRelay,
+            outAppDetailInfo: outAppDetailInfo,
+            outImages: imageModel,
+            outIntroduce: introduce
+        )
     }
     
 }

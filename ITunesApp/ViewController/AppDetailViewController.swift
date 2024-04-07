@@ -26,6 +26,13 @@ final class AppDetailViewController: BaseViewController<AppDetailView> {
         let output = viewModel.transform(input)
 
         homeView.appinfo.settingModel(output.outputAppInfo)
+        
+        homeView.detailView.setModel(output.outAppDetailInfo)
+        
+        homeView.imageScrollView.setModel(output.outImages)
+        
+        homeView.detailIntroduceView.setModel(output.outIntroduce)
+        
     }
     
     private func navigationSetting(){

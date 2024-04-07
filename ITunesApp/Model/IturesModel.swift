@@ -15,7 +15,7 @@ struct ITunes: Decodable {
 }
 
 // MARK: - Result
-struct SearchResult: Decodable {
+struct SearchResult: Decodable,Hashable {
     let bundleId: String // 프라이머리 키
     let artworkUrl60, artworkUrl100: String // 앱 로고
     let screenshotUrls: [String] // 스크린샷
