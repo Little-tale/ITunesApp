@@ -14,6 +14,7 @@ protocol UserDefaultsAssiType{
     func saveOf<T:Codable>(data: T, forKey key: type) -> Observable<T>
     
     func saveList<T:Codable>(data: T, forkey Key: type) -> Observable<[T]>
+    
     // R
     func loadOf<T:Codable>(data: T.Type, forkey key: type) -> Observable<T>
     
@@ -85,12 +86,13 @@ class UserDefaultsAssistance:UserDefaultsAssiType {
             // encode
             do {
                 let save = try encoder.encode(existingList)
+                defaults.set(save, forKey: Key.key)
                 observable.onNext(existingList)
+                observable.onCompleted()
             }
             catch {
                 observable.onError(UserDefaultsError.canDecode)
             }
-            observable.onCompleted()
             return Disposables.create()
         }
     }
@@ -115,14 +117,14 @@ class UserDefaultsAssistance:UserDefaultsAssiType {
             if let loadData = defaults.data(forKey: Key.key) {
                 do {
                     let load = try decoder.decode([T].self, from: loadData)
-                    
+    
                     observable.onNext(load)
+                    observable.onCompleted()
                 } catch {
                     observable.onError(UserDefaultsError.canDecode)
                 }
             }
             
-            observable.onCompleted()
             return Disposables.create()
         }
     }

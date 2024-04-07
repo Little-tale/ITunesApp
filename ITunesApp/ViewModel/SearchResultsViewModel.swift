@@ -12,15 +12,19 @@ import RxCocoa
 class SearchResultsViewModel: ViewModelType {
     let disposeBag = DisposeBag()
     
+    let userDefaults = UserDefaultsAssistance()
+    
     struct Input {
-        let searchText: Observable<String>
+        let searchText: PublishSubject<String>
     }
     struct Output {
         let resultData: BehaviorRelay<[SearchResult]>
+        let recenData: BehaviorRelay<[RecentModel]>
     }
     
     func transform(_ input: Input) -> Output {
         let behiber = BehaviorRelay<[SearchResult]> (value: [])
+        let recent = BehaviorRelay<[RecentModel]> (value: [])
         
         input.searchText
             .distinctUntilChanged()
@@ -33,10 +37,35 @@ class SearchResultsViewModel: ViewModelType {
                 return UrlRequestAssistance.shared.requestAF(type: ITunes.self, router: .search(term: searchText))
             }
             .map({ $0.results })
+            .share(replay: 2)
             .bind(to: behiber)
             .disposed(by: disposeBag)
         
-        return Output(resultData: behiber)
+        input.searchText
+            .filter { $0 != "" }
+            .bind(with: self) { owner, string in
+                let recentModel = RecentModel(appName: string, primery: UUID().uuidString)
+                let re = owner.userDefaults.saveList(data: recentModel, forkey: .recent)
+                re.bind(to: recent)
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+            
+        userDefaults.loadList(data: RecentModel.self, forkey: .recent)
+            .subscribe(onNext: { models in
+                recent.accept(models)
+            }, onError: { error in
+                print(error)
+            })
+            .disposed(by: disposeBag)
+        
+        
+        
+        return Output(
+            resultData: behiber,
+            recenData: recent
+        )
     }
 }
 

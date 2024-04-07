@@ -17,9 +17,10 @@ import SnapKit
  3. 하지만 생각 보다 이상함 디퍼블 데이터 소스 부분이 너무 애매해짐
  4. 그렇다고 String String으로 Identi 주어 그릴때마다 순회한다? 너무 이상함
  */
-class SearchControllerViewController: UIViewController, LayoutProtocol {
+final class SearchControllerViewController: UIViewController, LayoutProtocol {
     
     let appInfoTableView = UITableView(frame: .zero)
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
     
     let disposeBag = DisposeBag()
     
@@ -41,18 +42,32 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
     }
     
     func configureHierarchy() {
+        view.addSubview(collectionView)
         view.addSubview(appInfoTableView)
     }
     
     func configureLayout() {
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(50)
+        }
         appInfoTableView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(collectionView.snp.bottom)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
+        
     
     func designView() {
         
         appInfoTableView.backgroundColor = .systemBackground
+        
+        appInfoTableView.estimatedRowHeight = 120
+        appInfoTableView.rowHeight = UITableView.automaticDimension
+        appInfoTableView.separatorStyle = .none
+        
+        
     }
     
     
@@ -64,7 +79,6 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
         
         // TableView Draw
         output.resultData
-           
             .bind(
                 to: appInfoTableView.rx.items(
                     cellIdentifier: SearchAppInfoTableCell.identifier,
@@ -74,6 +88,15 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
                 cell.settingModel(data)
             }
             .disposed(by: disposeBag)
+        
+        output.recenData
+            .bind(
+                to: collectionView.rx.items(cellIdentifier: RecentCollectionViewCell.identifier, cellType: RecentCollectionViewCell.self)
+            ) { row, data, cell in
+                cell.label.text = data.appName
+            }
+            .disposed(by: disposeBag)
+        
         
         // TableView ItemSelected
         appInfoTableView.rx.modelSelected(SearchResult.self)
@@ -96,9 +119,8 @@ class SearchControllerViewController: UIViewController, LayoutProtocol {
     
     private func registSetting(){
         appInfoTableView.register(SearchAppInfoTableCell.self, forCellReuseIdentifier: SearchAppInfoTableCell.identifier)
-        appInfoTableView.estimatedRowHeight = 120
-        appInfoTableView.rowHeight = UITableView.automaticDimension
-        appInfoTableView.separatorStyle = .none
+        
+        collectionView.register(RecentCollectionViewCell.self, forCellWithReuseIdentifier: RecentCollectionViewCell.identifier)
     }
     
 }
