@@ -6,7 +6,8 @@
 //
 
 import UIKit
-
+import RxSwift
+import RxCocoa
 
 extension UIView  {
     
@@ -35,5 +36,16 @@ extension UIWindow {
 extension UIScreen {
     static var current: UIScreen? {
         UIWindow.current?.screen
+    }
+}
+
+
+// MARK: Rx ViewWillAppear
+extension Reactive where Base: UIViewController {
+    
+    var viewWillAppear: ControlEvent<Bool> {
+        let source = methodInvoked(#selector(Base.viewWillAppear)).map { $0.first as? Bool ?? false }
+        print("viewWillAppear Load Complite ~~!~!~!~!")
+        return ControlEvent(events: source)
     }
 }

@@ -25,6 +25,10 @@
 		7B7DE3D12BC2A93A00C01955 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 7B7DE3D02BC2A93A00C01955 /* Realm */; };
 		7B7DE3D32BC2A93A00C01955 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B7DE3D22BC2A93A00C01955 /* RealmSwift */; };
 		7B7DE3D62BC2AD1500C01955 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3D52BC2AD1500C01955 /* RealmManager.swift */; };
+		7B7DE3D82BC2D33A00C01955 /* DownloadAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3D72BC2D33A00C01955 /* DownloadAppViewController.swift */; };
+		7B7DE3DA2BC2D43E00C01955 /* AppInfoTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3D92BC2D43E00C01955 /* AppInfoTableCell.swift */; };
+		7B7DE3DC2BC2D4C200C01955 /* DownloadAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3DB2BC2D4C200C01955 /* DownloadAppViewModel.swift */; };
+		7B7DE3DE2BC2DBCC00C01955 /* DownLoadAppTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3DD2BC2DBCC00C01955 /* DownLoadAppTableViewModel.swift */; };
 		7BA6C37A2BC13D9900D36B0F /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6C3792BC13D9900D36B0F /* AppInfoView.swift */; };
 		7BA6C37C2BC143B700D36B0F /* AppDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6C37B2BC143B700D36B0F /* AppDetailViewController.swift */; };
 		7BA6C37E2BC1443E00D36B0F /* AppDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6C37D2BC1443E00D36B0F /* AppDetailView.swift */; };
@@ -80,6 +84,10 @@
 		7B7DE3CA2BC2773D00C01955 /* layoutExtenion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layoutExtenion.swift; sourceTree = "<group>"; };
 		7B7DE3CD2BC2A7E900C01955 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		7B7DE3D52BC2AD1500C01955 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		7B7DE3D72BC2D33A00C01955 /* DownloadAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadAppViewController.swift; sourceTree = "<group>"; };
+		7B7DE3D92BC2D43E00C01955 /* AppInfoTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoTableCell.swift; sourceTree = "<group>"; };
+		7B7DE3DB2BC2D4C200C01955 /* DownloadAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadAppViewModel.swift; sourceTree = "<group>"; };
+		7B7DE3DD2BC2DBCC00C01955 /* DownLoadAppTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownLoadAppTableViewModel.swift; sourceTree = "<group>"; };
 		7BA6C3792BC13D9900D36B0F /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
 		7BA6C37B2BC143B700D36B0F /* AppDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailViewController.swift; sourceTree = "<group>"; };
 		7BA6C37D2BC1443E00D36B0F /* AppDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailView.swift; sourceTree = "<group>"; };
@@ -231,6 +239,7 @@
 				7BDAF3972BC01263002676A0 /* SearchViewController.swift */,
 				7BDAF3C52BC05D5C002676A0 /* SearchControllerViewController.swift */,
 				7BA6C37B2BC143B700D36B0F /* AppDetailViewController.swift */,
+				7B7DE3D72BC2D33A00C01955 /* DownloadAppViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -246,6 +255,8 @@
 				7B7DE3B52BC19DE500C01955 /* AppDeatilInfoViewModel.swift */,
 				7B7DE3BC2BC1AC7F00C01955 /* ImageCollecionViewModel.swift */,
 				7B7DE3C22BC22CFD00C01955 /* IntroduceViewModel.swift */,
+				7B7DE3DB2BC2D4C200C01955 /* DownloadAppViewModel.swift */,
+				7B7DE3DD2BC2DBCC00C01955 /* DownLoadAppTableViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -342,6 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				7BDAF3DA2BC076EC002676A0 /* SearchAppInfoTableCell.swift */,
+				7B7DE3D92BC2D43E00C01955 /* AppInfoTableCell.swift */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -443,12 +455,14 @@
 				7BDAF3982BC01263002676A0 /* SearchViewController.swift in Sources */,
 				7BDAF3CE2BC06274002676A0 /* LayoutProtocol.swift in Sources */,
 				7BDAF3B32BC04A1F002676A0 /* UrlRequestAssistance.swift in Sources */,
+				7B7DE3DA2BC2D43E00C01955 /* AppInfoTableCell.swift in Sources */,
 				7B7DE3C92BC276B200C01955 /* RecentCollectionViewCell.swift in Sources */,
 				7BDAF3CB2BC060CB002676A0 /* SearchAppInfoCollectionViewCell.swift in Sources */,
 				7B7DE3B42BC19D6700C01955 /* AppDetailVersionView.swift in Sources */,
 				7BDAF3B02BC01677002676A0 /* ITunesRouter.swift in Sources */,
 				7BDAF3B92BC050A9002676A0 /* SearchBaseView.swift in Sources */,
 				7BA6C3822BC1671A00D36B0F /* AppInfoViewModel.swift in Sources */,
+				7B7DE3D82BC2D33A00C01955 /* DownloadAppViewController.swift in Sources */,
 				7B7DE3BF2BC1B44700C01955 /* OnlyImageCell.swift in Sources */,
 				7BDAF3C92BC06045002676A0 /* Extention.swift in Sources */,
 				7B7DE3C72BC25C2F00C01955 /* UserDefaultsModel.swift in Sources */,
@@ -463,6 +477,7 @@
 				7B7DE3B02BC1839F00C01955 /* CollectioView.swift in Sources */,
 				7BA6C37E2BC1443E00D36B0F /* AppDetailView.swift in Sources */,
 				7BDAF39B2BC0131F002676A0 /* IturesModel.swift in Sources */,
+				7B7DE3DE2BC2DBCC00C01955 /* DownLoadAppTableViewModel.swift in Sources */,
 				7B7DE3B92BC1A88D00C01955 /* ImageScrollCollectionView.swift in Sources */,
 				7B7DE3BD2BC1AC7F00C01955 /* ImageCollecionViewModel.swift in Sources */,
 				7BDAF3C02BC053D9002676A0 /* BaseViewController.swift in Sources */,
@@ -471,6 +486,7 @@
 				7BDAF3D22BC06595002676A0 /* ViewModelType.swift in Sources */,
 				7B7DE3CB2BC2773D00C01955 /* layoutExtenion.swift in Sources */,
 				7B7DE3B62BC19DE500C01955 /* AppDeatilInfoViewModel.swift in Sources */,
+				7B7DE3DC2BC2D4C200C01955 /* DownloadAppViewModel.swift in Sources */,
 				7BDAF3C22BC055C0002676A0 /* SearchHomeView.swift in Sources */,
 				7BDAF3C62BC05D5C002676A0 /* SearchControllerViewController.swift in Sources */,
 				7BA6C3802BC14B0400D36B0F /* AppDetailViewModel.swift in Sources */,

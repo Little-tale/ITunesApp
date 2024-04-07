@@ -55,25 +55,24 @@ final class RealmManager: RealmManagerType {
                 observable.onError(realmError.cant)
                 return Disposables.create()
             }
-//            realm?.writeAsync({
-//                self.realm?.add(Object)
-//                observable.onNext(Object)
-//            }, onComplete: { error in
-//                if let error {
-//                    print(error)
-//                    observable.onError(realmError.cant)
-//                }
-//                observable.onCompleted()
-//            })
             
-            try? realm?.write({
-                self.realm?.add(Object)
-            })
+            do {
+                try realm?.write({
+                    self.realm?.add(Object,update: .modified)
+               })
+            } catch {
+                observable.onError(realmError.cant)
+            }
             observable.onNext(Object)
             observable.onCompleted()
             return Disposables.create()
         }
     }
+    
+//    func isSame<O:Object>(type: RealmModelType, Object: O) -> Bool {
+//        guard let realm else { return false }
+//        let find = realm.objects(type.model.self).where
+//    }
     
     func saveModel<T:Object>(_ type: RealmModelType, Object: T) {
         realm?.writeAsync({
@@ -110,3 +109,15 @@ final class RealmManager: RealmManagerType {
     }
     
 }
+
+
+//            realm?.writeAsync({
+//                self.realm?.add(Object)
+//                observable.onNext(Object)
+//            }, onComplete: { error in
+//                if let error {
+//                    print(error)
+//                    observable.onError(realmError.cant)
+//                }
+//                observable.onCompleted()
+//            })

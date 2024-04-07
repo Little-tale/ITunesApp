@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import Then
 import RxCocoa
 
 protocol PushViewController: AnyObject {
@@ -23,6 +24,10 @@ class SearchViewController: UIViewController {
     private lazy var nextSearchViewController = rootViewController //UINavigationController(rootViewController: rootViewController)
     
     private lazy var homeView = SearchHomeView(resultViewController: nextSearchViewController, frame: .zero)
+    
+    private let rightBarButton = UIBarButtonItem().then {
+        $0.image = UIImage(systemName: "star")
+    }
     
     let disposeBag = DisposeBag()
     
@@ -47,6 +52,8 @@ class SearchViewController: UIViewController {
         navigationItem.title = "검색"
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        navigationItem.rightBarButtonItem = rightBarButton
     }
     
     private func subscribe(){
@@ -66,6 +73,20 @@ class SearchViewController: UIViewController {
                 owner.rootViewController
                     .performsearch(for: searchText)
             }.disposed(by: disposeBag)
+        
+        
+        //////
+        rightBarButton.rx.tap
+            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
+            .bind(with: self) { owner, _ in
+
+                let vc = DownloadAppViewController()
+                vc.modalPresentationStyle = .popover
+                owner.present(vc, animated: true)
+                
+            }
+            .disposed(by: disposeBag)
+        
     }
     
 }
