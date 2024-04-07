@@ -55,8 +55,6 @@ class AppInfoView: BaseView{
         addSubview(apptrackName)
         addSubview(appCompanyName)
         addSubview(downButton)
-        backgroundColor = .red
-    
     }
     
     override func configureLayout() {

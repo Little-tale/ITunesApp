@@ -17,6 +17,8 @@
 		7B7DE3BF2BC1B44700C01955 /* OnlyImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3BE2BC1B44700C01955 /* OnlyImageCell.swift */; };
 		7B7DE3C12BC22B8500C01955 /* AppIntroduceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3C02BC22B8500C01955 /* AppIntroduceView.swift */; };
 		7B7DE3C32BC22CFD00C01955 /* IntroduceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3C22BC22CFD00C01955 /* IntroduceViewModel.swift */; };
+		7B7DE3C52BC2580B00C01955 /* UserDefaultsAssistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3C42BC2580B00C01955 /* UserDefaultsAssistance.swift */; };
+		7B7DE3C72BC25C2F00C01955 /* UserDefaultsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3C62BC25C2F00C01955 /* UserDefaultsModel.swift */; };
 		7BA6C37A2BC13D9900D36B0F /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6C3792BC13D9900D36B0F /* AppInfoView.swift */; };
 		7BA6C37C2BC143B700D36B0F /* AppDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6C37B2BC143B700D36B0F /* AppDetailViewController.swift */; };
 		7BA6C37E2BC1443E00D36B0F /* AppDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6C37D2BC1443E00D36B0F /* AppDetailView.swift */; };
@@ -66,6 +68,8 @@
 		7B7DE3BE2BC1B44700C01955 /* OnlyImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlyImageCell.swift; sourceTree = "<group>"; };
 		7B7DE3C02BC22B8500C01955 /* AppIntroduceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntroduceView.swift; sourceTree = "<group>"; };
 		7B7DE3C22BC22CFD00C01955 /* IntroduceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceViewModel.swift; sourceTree = "<group>"; };
+		7B7DE3C42BC2580B00C01955 /* UserDefaultsAssistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsAssistance.swift; sourceTree = "<group>"; };
+		7B7DE3C62BC25C2F00C01955 /* UserDefaultsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsModel.swift; sourceTree = "<group>"; };
 		7BA6C3792BC13D9900D36B0F /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
 		7BA6C37B2BC143B700D36B0F /* AppDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailViewController.swift; sourceTree = "<group>"; };
 		7BA6C37D2BC1443E00D36B0F /* AppDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailView.swift; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 			children = (
 				7BDAF39A2BC0131F002676A0 /* IturesModel.swift */,
 				7BDAF3D52BC07078002676A0 /* AppInfoCellModel.swift */,
+				7B7DE3C62BC25C2F00C01955 /* UserDefaultsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -251,6 +256,7 @@
 			children = (
 				7BDAF3B22BC04A1F002676A0 /* UrlRequestAssistance.swift */,
 				7BDAF3D72BC07259002676A0 /* NumberAssistance.swift */,
+				7B7DE3C42BC2580B00C01955 /* UserDefaultsAssistance.swift */,
 			);
 			path = Assistance;
 			sourceTree = "<group>";
@@ -408,9 +414,11 @@
 				7BA6C3822BC1671A00D36B0F /* AppInfoViewModel.swift in Sources */,
 				7B7DE3BF2BC1B44700C01955 /* OnlyImageCell.swift in Sources */,
 				7BDAF3C92BC06045002676A0 /* Extention.swift in Sources */,
+				7B7DE3C72BC25C2F00C01955 /* UserDefaultsModel.swift in Sources */,
 				7B7DE3BB2BC1A93D00C01955 /* AutoPaginCollectionFlowLayout.swift in Sources */,
 				7BA6C3852BC1796B00D36B0F /* MordernCollectionViewLayout.swift in Sources */,
 				7BA6C37C2BC143B700D36B0F /* AppDetailViewController.swift in Sources */,
+				7B7DE3C52BC2580B00C01955 /* UserDefaultsAssistance.swift in Sources */,
 				7BDAF3D02BC06575002676A0 /* SearchControllerViewModel.swift in Sources */,
 				7B7DE3C12BC22B8500C01955 /* AppIntroduceView.swift in Sources */,
 				7B7DE3C32BC22CFD00C01955 /* IntroduceViewModel.swift in Sources */,
