@@ -24,6 +24,7 @@
 		7B7DE3CE2BC2A7E900C01955 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3CD2BC2A7E900C01955 /* RealmModel.swift */; };
 		7B7DE3D12BC2A93A00C01955 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 7B7DE3D02BC2A93A00C01955 /* Realm */; };
 		7B7DE3D32BC2A93A00C01955 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B7DE3D22BC2A93A00C01955 /* RealmSwift */; };
+		7B7DE3D62BC2AD1500C01955 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3D52BC2AD1500C01955 /* RealmManager.swift */; };
 		7BA6C37A2BC13D9900D36B0F /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6C3792BC13D9900D36B0F /* AppInfoView.swift */; };
 		7BA6C37C2BC143B700D36B0F /* AppDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6C37B2BC143B700D36B0F /* AppDetailViewController.swift */; };
 		7BA6C37E2BC1443E00D36B0F /* AppDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6C37D2BC1443E00D36B0F /* AppDetailView.swift */; };
@@ -78,6 +79,7 @@
 		7B7DE3C82BC276B200C01955 /* RecentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentCollectionViewCell.swift; sourceTree = "<group>"; };
 		7B7DE3CA2BC2773D00C01955 /* layoutExtenion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layoutExtenion.swift; sourceTree = "<group>"; };
 		7B7DE3CD2BC2A7E900C01955 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
+		7B7DE3D52BC2AD1500C01955 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		7BA6C3792BC13D9900D36B0F /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
 		7BA6C37B2BC143B700D36B0F /* AppDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailViewController.swift; sourceTree = "<group>"; };
 		7BA6C37D2BC1443E00D36B0F /* AppDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailView.swift; sourceTree = "<group>"; };
@@ -155,6 +157,14 @@
 			path = Realm;
 			sourceTree = "<group>";
 		};
+		7B7DE3D42BC2AD0300C01955 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				7B7DE3D52BC2AD1500C01955 /* RealmManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		7BA6C3782BC13D8D00D36B0F /* AppInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -195,6 +205,7 @@
 		7BDAF37E2BC0111D002676A0 /* ITunesApp */ = {
 			isa = PBXGroup;
 			children = (
+				7B7DE3D42BC2AD0300C01955 /* Manager */,
 				7B7DE3AE2BC1839400C01955 /* Register */,
 				7BA6C3832BC1795B00D36B0F /* Layout */,
 				7BDAF3CC2BC06265002676A0 /* Protocol */,
@@ -443,6 +454,7 @@
 				7B7DE3C72BC25C2F00C01955 /* UserDefaultsModel.swift in Sources */,
 				7B7DE3BB2BC1A93D00C01955 /* AutoPaginCollectionFlowLayout.swift in Sources */,
 				7BA6C3852BC1796B00D36B0F /* MordernCollectionViewLayout.swift in Sources */,
+				7B7DE3D62BC2AD1500C01955 /* RealmManager.swift in Sources */,
 				7BA6C37C2BC143B700D36B0F /* AppDetailViewController.swift in Sources */,
 				7B7DE3C52BC2580B00C01955 /* UserDefaultsAssistance.swift in Sources */,
 				7BDAF3D02BC06575002676A0 /* SearchControllerViewModel.swift in Sources */,
