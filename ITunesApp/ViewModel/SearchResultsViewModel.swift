@@ -30,6 +30,7 @@ class SearchResultsViewModel: ViewModelType {
         input.searchText
             .distinctUntilChanged()
             .debounce(.milliseconds(600), scheduler: MainScheduler.instance)
+            .observe(on: ConcurrentDispatchQueueScheduler(qos: .default))
             .flatMapLatest { searchText in
                 guard !searchText.isEmpty else {
                     print("no no no title ")
@@ -37,6 +38,7 @@ class SearchResultsViewModel: ViewModelType {
                 }
                 return UrlRequestAssistance.shared.requestAF(type: ITunes.self, router: .search(term: searchText))
             }
+            .observe(on: MainScheduler.instance)
             .map({ $0.results })
             .share(replay: 2)
             .bind(to: behiber)

@@ -118,8 +118,6 @@ class UserDefaultsAssistance:UserDefaultsAssiType {
                 observable.onError(UserDefaultsError.canDecode)
                 return Disposables.create()
             }
-            let defaults = UserDefaults.standard
-            let decoder = JSONDecoder()
             
             let result = self.loadList(data, forKey: .recent)
             observable.onNext(result)

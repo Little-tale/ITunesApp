@@ -50,7 +50,7 @@ enum ITunesRouter: URLRequestConvertible {
     func asURLRequest() throws -> URLRequest {
         let url = baseUrl.appendingPathComponent(path).absoluteString.removingPercentEncoding!
         
-        var request = try URLRequest.init(url: url, method: method)
+        let request = try URLRequest.init(url: url, method: method)
         
         return try URLEncoding.default.encode(request, with: parametters)
     }
