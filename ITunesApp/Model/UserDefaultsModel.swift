@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct RecentModel: Codable {
+struct RecentModel: Codable, Equatable {
     let appName: String
     let primery: String
 }

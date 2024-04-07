@@ -9,16 +9,15 @@ import Foundation
 import RxSwift
 
 protocol UserDefaultsAssiType{
-    
     // C
-    func saveOf<T:Codable>(data: T, forKey key: type) -> Observable<T>
+    func saveOf<T:Codable & Equatable>(data: T, forKey key: type) -> Observable<T>
     
-    func saveList<T:Codable>(data: T, forkey Key: type) -> Observable<[T]>
+    func saveList<T:Codable & Equatable>(data: T, forkey Key: type) -> Observable<[T]>
     
     // R
-    func loadOf<T:Codable>(data: T.Type, forkey key: type) -> Observable<T>
+    func loadOf<T:Codable & Equatable>(data: T.Type, forkey key: type) -> Observable<T>
     
-    func loadList<T:Codable>(data: T.Type, forkey Key: type) -> Observable<[T]>
+    func loadList<T:Codable & Equatable>(data: T.Type, forkey Key: type) -> Observable<[T]>
     // U
     
     // D
@@ -48,7 +47,7 @@ class UserDefaultsAssistance:UserDefaultsAssiType {
     
     
     @discardableResult
-    func saveOf<T:Codable>(data: T, forKey key: type) -> Observable<T>{
+    func saveOf<T:Codable & Equatable>(data: T, forKey key: type) -> Observable<T>{
 
         return Observable
             .create { observable in
@@ -66,8 +65,8 @@ class UserDefaultsAssistance:UserDefaultsAssiType {
                 return Disposables.create()
         }
     }
-    @discardableResult
-    func saveList<T:Codable>(data: T, forkey Key: type) -> Observable<[T]> {
+    @discardableResult // 중복있는지 검사
+    func saveList<T:Codable & Equatable>(data: T, forkey Key: type) -> Observable<[T]> {
         
         return Observable.create { observable in
             let defaults = UserDefaults.standard
@@ -79,6 +78,10 @@ class UserDefaultsAssistance:UserDefaultsAssiType {
             if let loadData = defaults.object(forKey: Key.key) as? Data,
                let loadList = try? JSONDecoder().decode([T].self, from: loadData) {
                 existingList = loadList
+            }
+            if existingList.contains(data){
+                observable.onNext(existingList)
+                observable.onCompleted()
             }
             // append
             existingList.append(data)
@@ -99,7 +102,7 @@ class UserDefaultsAssistance:UserDefaultsAssiType {
     
     
     @discardableResult /// 기본내장타입만 된다니....?
-    func loadOf<T:Codable>(data: T.Type, forkey key: type) -> Observable<T> {
+    func loadOf<T:Codable & Equatable>(data: T.Type, forkey key: type) -> Observable<T> {
 
         return UserDefaults.standard.rx.observe(data, key.key)
             .debounce(.milliseconds(200), scheduler: MainScheduler.asyncInstance)
@@ -108,26 +111,36 @@ class UserDefaultsAssistance:UserDefaultsAssiType {
     }
     
     @discardableResult
-    func loadList<T:Codable>(data: T.Type, forkey Key: type) -> Observable<[T]> {
+    func loadList<T:Codable & Equatable>(data: T.Type, forkey Key: type) -> Observable<[T]> {
         
-        return Observable.create { observable in
+        return Observable.create { [weak self] observable in
+            guard let self else {
+                observable.onError(UserDefaultsError.canDecode)
+                return Disposables.create()
+            }
             let defaults = UserDefaults.standard
             let decoder = JSONDecoder()
             
-            if let loadData = defaults.data(forKey: Key.key) {
-                do {
-                    let load = try decoder.decode([T].self, from: loadData)
-    
-                    observable.onNext(load)
-                    observable.onCompleted()
-                } catch {
-                    observable.onError(UserDefaultsError.canDecode)
-                }
-            }
-            
+            let result = self.loadList(data, forKey: .recent)
+            observable.onNext(result)
+            observable.onCompleted()
             return Disposables.create()
         }
     }
     
+    
+    private func loadList<T:Codable & Equatable>(_ type: T.Type, forKey Key: type) -> [T] {
+        let decoder = JSONDecoder()
+        if let loadData = UserDefaults.standard.data(forKey: Key.key) {
+            do {
+                let load = try decoder.decode([T].self, from: loadData)
+
+                return load
+            } catch {
+                return []
+            }
+        }
+        return []
+    }
     
 }

@@ -16,6 +16,7 @@ class SearchResultsViewModel: ViewModelType {
     
     struct Input {
         let searchText: PublishSubject<String>
+        let recentSelected: PublishSubject<RecentModel>
     }
     struct Output {
         let resultData: BehaviorRelay<[SearchResult]>
@@ -44,14 +45,19 @@ class SearchResultsViewModel: ViewModelType {
         input.searchText
             .filter { $0 != "" }
             .bind(with: self) { owner, string in
-                let recentModel = RecentModel(appName: string, primery: UUID().uuidString)
+                let recentModel = RecentModel(appName: string, primery: string)
+
                 let re = owner.userDefaults.saveList(data: recentModel, forkey: .recent)
                 re.bind(to: recent)
                     .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
         
-            
+        input.recentSelected
+            .map { $0.appName }
+            .bind(to: input.searchText)
+            .disposed(by: disposeBag)
+        
         userDefaults.loadList(data: RecentModel.self, forkey: .recent)
             .subscribe(onNext: { models in
                 recent.accept(models)

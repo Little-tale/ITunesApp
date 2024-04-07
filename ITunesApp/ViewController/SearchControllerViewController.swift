@@ -72,8 +72,12 @@ final class SearchControllerViewController: UIViewController, LayoutProtocol {
     
     
     private func subscribe(){
+        let selectedRecented = PublishSubject<RecentModel> ()
         
-        let input = SearchResultsViewModel.Input(searchText: searchQuerySub)
+        let input = SearchResultsViewModel.Input(
+            searchText: searchQuerySub,
+            recentSelected: selectedRecented
+        )
         
         let output = viewModel.transform(input)
         
@@ -81,14 +85,15 @@ final class SearchControllerViewController: UIViewController, LayoutProtocol {
         output.resultData
             .bind(
                 to: appInfoTableView.rx.items(
-                    cellIdentifier: SearchAppInfoTableCell.identifier,
+                    cellIdentifier:
+                        SearchAppInfoTableCell.identifier,
                     cellType: SearchAppInfoTableCell.self
                 )
             ) { row , data , cell in
                 cell.settingModel(data)
             }
             .disposed(by: disposeBag)
-        
+        // collectionView Draw
         output.recenData
             .bind(
                 to: collectionView.rx.items(cellIdentifier: RecentCollectionViewCell.identifier, cellType: RecentCollectionViewCell.self)
@@ -109,6 +114,12 @@ final class SearchControllerViewController: UIViewController, LayoutProtocol {
                 
                 print("????/")
             }
+            .disposed(by: disposeBag)
+        
+        // collectionView ItemSelected
+        collectionView.rx.modelSelected(RecentModel.self)
+            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
+            .bind(to: selectedRecented)
             .disposed(by: disposeBag)
     }
     
