@@ -9,14 +9,14 @@ import Foundation
 import RealmSwift
 
 class DownloadApp: Object {
-    @Persisted(primaryKey: true) var appId: String
+    @Persisted(primaryKey: true) var appId: Int
     @Persisted var appName : String
     @Persisted var appImage: String
     @Persisted var regDate: Date
     
     
     convenience
-    init(appId: String, appName: String, appImage: String, regDate: Date) {
+    init(appId: Int, appName: String, appImage: String, regDate: Date) {
         self.init()
         self.appId = appId
         self.appName = appName

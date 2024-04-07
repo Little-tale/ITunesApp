@@ -12,6 +12,7 @@ import RxCocoa
 class SearchTableCellViewModel: ViewModelType {
     
     var disposeBag: DisposeBag = .init()
+    let realmRe = RealmManager()
     
     struct Input {
         let inputModel: BehaviorRelay<SearchResult>
@@ -58,6 +59,30 @@ class SearchTableCellViewModel: ViewModelType {
             .compactMap { $0.map { URL(string: $0) } }
             .asDriver(onErrorJustReturn: [nil])
         
+        input.inputDownButtonTap
+            .withLatestFrom(input.inputModel)
+            .map { result -> DownloadApp in
+                let app = DownloadApp(
+                    appId: result.trackID,
+                    appName: result.trackName,
+                    appImage: result.artworkUrl60,
+                    regDate: Date()
+                )
+                return app
+            }
+            .subscribe(with: self, onNext: { owner, value in
+                owner.realmRe.saveModel(.DownApp, Object: value)
+                    .distinctUntilChanged()
+                    .subscribe { app in
+                        print(app)
+                    } onError: { error in
+                        print(error)
+                    }
+                    .disposed(by: owner.disposeBag)
+            }, onError: { owner, error in
+                print(error)
+            })
+            .disposed(by: disposeBag)
        
         return Output(
             trackName: trackName,

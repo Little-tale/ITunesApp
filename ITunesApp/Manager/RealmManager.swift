@@ -36,11 +36,8 @@ enum RealmModelType {
 
 final class RealmManager: RealmManagerType {
     
-    
-    
     private(set) var realm: Realm?
 
-    
     init() {
         do {
            realm = try Realm()
@@ -51,25 +48,44 @@ final class RealmManager: RealmManagerType {
     
     @discardableResult
     func saveModel<T: Object>(_ type: RealmModelType, Object: T) -> Observable<T>  {
-        let model = type.model
+        print(realm?.configuration.fileURL)
+        // let model = type.model
         return Observable.create {[weak self] observable in
             guard let self else {
                 observable.onError(realmError.cant)
                 return Disposables.create()
             }
-            realm?.writeAsync({
+//            realm?.writeAsync({
+//                self.realm?.add(Object)
+//                observable.onNext(Object)
+//            }, onComplete: { error in
+//                if let error {
+//                    print(error)
+//                    observable.onError(realmError.cant)
+//                }
+//                observable.onCompleted()
+//            })
+            
+            try? realm?.write({
                 self.realm?.add(Object)
-                observable.onNext(Object)
-            }, onComplete: { error in
-                if let error {
-                    print(error)
-                    observable.onError(realmError.cant)
-                }
-                observable.onCompleted()
-
             })
+            observable.onNext(Object)
+            observable.onCompleted()
             return Disposables.create()
         }
+    }
+    
+    func saveModel<T:Object>(_ type: RealmModelType, Object: T) {
+        realm?.writeAsync({
+            self.realm?.add(Object)
+//            observable.onNext(Object)
+        }, onComplete: { error in
+            if let error {
+                print(error)
+//                observable.onError(realmError.cant)
+            }
+//            observable.onCompleted()
+        })
     }
     
     func readModel< T: Object > (_ model: T.Type ) -> Observable<[T]> {
