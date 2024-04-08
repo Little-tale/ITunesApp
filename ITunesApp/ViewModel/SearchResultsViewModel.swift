@@ -9,7 +9,9 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class SearchResultsViewModel: ViewModelType {
+
+
+final class SearchResultsViewModel: ViewModelType {
     let disposeBag = DisposeBag()
     
     let userDefaults = UserDefaultsAssistance()
@@ -21,29 +23,43 @@ class SearchResultsViewModel: ViewModelType {
     struct Output {
         let resultData: BehaviorRelay<[SearchResult]>
         let recenData: BehaviorRelay<[RecentModel]>
+        let errorCase: PublishRelay<AleartModel>
     }
     
     func transform(_ input: Input) -> Output {
         let behiber = BehaviorRelay<[SearchResult]> (value: [])
         let recent = BehaviorRelay<[RecentModel]> (value: [])
+        let ifError = PublishRelay<AleartModel> ()
         
-        input.searchText
+        // MARK: 네트워크 시작 할 옵저버블
+        let networkStart = input.searchText
             .distinctUntilChanged()
-            .debounce(.milliseconds(600), scheduler: MainScheduler.instance)
-            .observe(on: ConcurrentDispatchQueueScheduler(qos: .default))
-            .flatMapLatest { searchText in
-                guard !searchText.isEmpty else {
-                    print("no no no title ")
-                    return Observable.just(ITunes(results: []))
-                }
-                return UrlRequestAssistance.shared.requestAF(type: ITunes.self, router: .search(term: searchText))
+            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+            .filter { !$0.isEmpty }
+            .flatMapLatest {
+                UrlRequestAssistance.shared.requestAF(type: ITunes.self, router: .search(term: $0))
             }
-            .observe(on: MainScheduler.instance)
-            .map({ $0.results })
-            .share(replay: 2)
-            .bind(to: behiber)
-            .disposed(by: disposeBag)
+            .share()
         
+        // MARK: Success
+        networkStart.subscribe {  result in
+            guard case .success(let value) = result else {
+                return
+            }
+            behiber.accept(value.results)
+        }
+        .disposed(by: disposeBag)
+        
+        // MARK: ERROR
+        networkStart.subscribe { result in
+            guard case .failure(let error) = result else {
+                return
+            }
+            ifError.accept(.error)
+        }
+        .disposed(by: disposeBag)
+        
+        // MARK: UserDefaults Save
         input.searchText
             .filter { $0 != "" }
             .bind(with: self) { owner, string in
@@ -54,6 +70,7 @@ class SearchResultsViewModel: ViewModelType {
                     .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
+        
         
         input.recentSelected
             .map { $0.appName }
@@ -72,10 +89,29 @@ class SearchResultsViewModel: ViewModelType {
         
         return Output(
             resultData: behiber,
-            recenData: recent
+            recenData: recent,
+            errorCase: ifError
         )
     }
 }
 
 
 
+//        input.searchText
+//            .distinctUntilChanged()
+//            .debounce(.milliseconds(600), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
+//            // .observe(on: con)
+//            .flatMapLatest { searchText in
+//                guard !searchText.isEmpty else {
+//                    print("no no no title ")
+//                    return Observable.just(ITunes(results: []))
+//                }
+//                return UrlRequestAssistance.shared
+//                    .requestAF(type: ITunes.self, router: .search(term: searchText))
+//                    .catch
+//            }
+//            .observe(on: MainScheduler.instance)
+//            .map({ $0.results })
+//            .share(replay: 2)
+//            .bind(to: behiber)
+//            .disposed(by: disposeBag)

@@ -16,9 +16,9 @@ class UrlRequestAssistance {
     static let shared = UrlRequestAssistance()
     private init() {}
     
-    func requestAF<T: Decodable>(type: T.Type, router: ITunesRouter) -> Observable<T> {
+    func requestAF<T: Decodable>(type: T.Type, router: ITunesRouter) -> Single<Result<T,AFError>> {
         
-        let afObservable = Observable<T>.create { observable in
+        let afObservable = Single<Result<T,AFError>>.create { observable in
 
             AF.request(router)
                 .responseDecodable(of: type) { response in
@@ -26,12 +26,13 @@ class UrlRequestAssistance {
                     case .success(let data):
                         print("success")
                         
-                        observable.onNext(data)
-                        observable.onCompleted()
-                        
+//                        observable.onNext(data)
+//                        observable.onCompleted()
+                        observable(.success(.success(data)))
                     case .failure(let error):
                         print(error)
-                        observable.onError(error)
+//                        observable.onError(error)
+                        observable(.success(.failure(error)))
                     }
                 }
             return Disposables.create()

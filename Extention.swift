@@ -48,4 +48,29 @@ extension Reactive where Base: UIViewController {
         print("viewWillAppear Load Complite ~~!~!~!~!")
         return ControlEvent(events: source)
     }
+    
+}
+
+
+extension UIViewController {
+    
+    func showAlert(title: String, message: String? = nil) -> Observable<String> {
+        
+        return Observable.create { [weak self] observable in
+            let alertControlelr = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let currectAction = UIAlertAction(title: "OK", style: .default) {
+                _ in
+                observable.onNext(title)
+                observable.onCompleted()
+            }
+            alertControlelr.addAction(currectAction)
+            
+            self?.present(alertControlelr, animated: true)
+            
+            return Disposables.create {
+                alertControlelr.dismiss(animated: true)
+            }
+        }
+    }
+    
 }

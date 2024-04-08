@@ -93,6 +93,7 @@ final class SearchControllerViewController: UIViewController, LayoutProtocol {
                 cell.settingModel(data)
             }
             .disposed(by: disposeBag)
+        
         // collectionView Draw
         output.recenData
             .bind(
@@ -102,6 +103,15 @@ final class SearchControllerViewController: UIViewController, LayoutProtocol {
             }
             .disposed(by: disposeBag)
         
+        output.errorCase
+            .flatMap { [unowned self] model in
+                showAlert(title: model.title, message: model.message)
+            }
+            .bind { error in
+                print(error)
+            }
+            .disposed(by: disposeBag)
+            
         
         // TableView ItemSelected
         appInfoTableView.rx.modelSelected(SearchResult.self)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B11DC482BC3FE270055D423 /* AleartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B11DC472BC3FE270055D423 /* AleartModel.swift */; };
 		7B7DE3B02BC1839F00C01955 /* CollectioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3AF2BC1839F00C01955 /* CollectioView.swift */; };
 		7B7DE3B22BC1851A00C01955 /* NewNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3B12BC1851A00C01955 /* NewNewsCell.swift */; };
 		7B7DE3B42BC19D6700C01955 /* AppDetailVersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DE3B32BC19D6700C01955 /* AppDetailVersionView.swift */; };
@@ -68,6 +69,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B11DC472BC3FE270055D423 /* AleartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AleartModel.swift; sourceTree = "<group>"; };
 		7B7DE3AF2BC1839F00C01955 /* CollectioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectioView.swift; sourceTree = "<group>"; };
 		7B7DE3B12BC1851A00C01955 /* NewNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNewsCell.swift; sourceTree = "<group>"; };
 		7B7DE3B32BC19D6700C01955 /* AppDetailVersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailVersionView.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				7BDAF39A2BC0131F002676A0 /* IturesModel.swift */,
 				7BDAF3D52BC07078002676A0 /* AppInfoCellModel.swift */,
 				7B7DE3C62BC25C2F00C01955 /* UserDefaultsModel.swift */,
+				7B11DC472BC3FE270055D423 /* AleartModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 				7B7DE3BB2BC1A93D00C01955 /* AutoPaginCollectionFlowLayout.swift in Sources */,
 				7BA6C3852BC1796B00D36B0F /* MordernCollectionViewLayout.swift in Sources */,
 				7B7DE3D62BC2AD1500C01955 /* RealmManager.swift in Sources */,
+				7B11DC482BC3FE270055D423 /* AleartModel.swift in Sources */,
 				7BA6C37C2BC143B700D36B0F /* AppDetailViewController.swift in Sources */,
 				7B7DE3C52BC2580B00C01955 /* UserDefaultsAssistance.swift in Sources */,
 				7BDAF3D02BC06575002676A0 /* SearchControllerViewModel.swift in Sources */,
